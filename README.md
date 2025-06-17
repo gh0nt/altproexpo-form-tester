@@ -1,104 +1,124 @@
-🛠️ AltProExpo‑Form‑Tester
-Automated testing tool for the Alt Pro Expo buyer‑registration form using Selenium & Python.
+# 🛠️ AltProExpo‑Form‑Tester
 
-🔍 Overview
-This lightweight Python script automates form submission on the Alt Pro Expo Gravity Forms page (/meet-the-buyer/buyer-registration/).
-Ideal for QA teams or developers needing to validate form behavior—especially for workflows involving file uploads, captchas, geolocation, and dynamic fields.
+Automated testing tool for the Alt Pro Expo buyer‑registration form using Selenium & Python.
 
-⚙️ Features
-Opens Chrome and navigates to the registration page
+---
 
-Handles waits and dynamic UI elements (buttons, date pickers, geolocation)
+## 🔍 Overview
 
-Populates all required fields: personal info, address, phone, ID, plus‑one info, payment details
+This lightweight Python script automates form submission on the Alt Pro Expo Gravity Forms page (`/meet-the-buyer/buyer-registration/`).  
+Ideal for QA teams or developers needing to validate form behavior—especially when workflows include file uploads, geolocation, “plus one” conditional logic, and payment fields.
 
-Uploads a company logo (with file‑size limitation built in)
+---
 
-Conditionally fills out plus‑one fields if the “Yes” option is selected
+## ⚙️ Features
 
-Submits the form and reports success or timeout
+- Opens Chrome and navigates to the registration page  
+- Handles dynamic UI elements (pop-ups, date pickers, geolocation, etc.)  
+- Fills **all required fields**: personal info, address, phone, ID, plus‑one info, payment details  
+- Uploads a company logo with file-size validation  
+- Conditional plus‑one section (only if “Yes” is selected)  
+- Submits the form and confirms success or timeout
 
-🔧 Prerequisites
-Python 3.10+
+---
 
-Google Chrome
+## 🔧 Prerequisites
 
-ChromeDriver matching your Chrome version
+- **Python 3.10+**  
+- **Google Chrome**  
+- **ChromeDriver** (matching your Chrome version)  
+- **Selenium**: install via pip  
+  ```bash
+  pip install selenium
 
-Selenium: install via pip:
-
-bash
-Copy code
-pip install selenium
-🧪 How to Use
+---
+## 🧪 How to Use
 Clone the repo:
-
+```
 bash
 Copy code
 git clone https://github.com/gh0nt/altproexpo-form-tester.git
 cd altproexpo-form-tester
-Place your test logo:
+```
+Add your test logo:
 
-Save your logo under ./fixtures/ (e.g., logo.png) for file upload.
+Save it under ./fixtures/ (e.g. logo.png)
 
-Update script variables (inside the .py):
+Ensure the script’s logo_path variable matches your filename
 
-Update the logo_path variable to match your test image filename.
+Update form values:
 
-Adjust form field values (names, emails, phone, etc.) to realistic test data if needed.
+```Edit test_registration.py to set realistic test data (name, email, phone, job title, etc.) ```
 
 Run the script:
 
 bash
+
 Copy code
+```
 python test_registration.py
-Observe console logs:
+```
+Observe console output:
+```
+✅ Form submitted successfully (if redirected)
 
-✅ Form submitted successfully (on redirect)
-
-⚠️ Timeout if the submission didn’t go through
+⚠️ Timeout (if submission failed or hung)
 
 📁 Script Breakdown
-Imports: selenium, WebDriverWait, expected conditions
+```
+### The core script does:
 
-Setup: Chrome browser session with form URL
+- Imports: selenium, WebDriverWait, EC, etc.
 
-Waits & fills:
+- Setup: launches Chrome and opens the form URL
 
-Name, email, phone, job title
+- Waits & Fills:
 
-Street, city, province, postal code, country
+- Personal information (name, email, phone, job title)
 
-Upload logo via file input field
+- Address fields (street, city, province, country, postal code)
 
-Date pickers and payment details (number, expiry month/year, CVC, cardholder)
+- File upload for logo
 
-Optional plus‑one fields (name, email, etc.)
+- Date picker and payment details (number, expiry, CVC, cardholder name)
 
-Submit: waits for URL change or logs a timeout
+- Optional plus‑one section
 
-✅ About File Uploads
-The Gravity Form limits logo uploads to 25 MB. The script only simulates form input and does not auto-bypass security measures (e.g., CAPTCHA or IP restrictions). You might still encounter validation errors server‑side, which is expected in a real‑world context.
+- Submit: waits for URL redirect or logs a timeout 
 
-🛠️ Customization Tips
-Replace ChromeDriver/webdriver path if needed
+## ✅ File Uploads
+Gravity Forms limits logo files to 25 MB. The script simulates the input only and does not bypass CAPTCHA or IP restrictions.
+Validation errors can still occur on submission—this is expected in real-world testing.
 
-Sync with alternate Gravity Forms versions if IDs change
+## 🛠️ Customization Tips
+- Modify the path for chromedriver/web driver if needed
+- Sync with updated Gravity Forms if field IDs change
+- Add environment-based test data via .env or separate config
 
-Add environment-based test data (e.g. .env or config files)
+Integrate into CI pipelines (e.g. GitHub Actions) for regression testing
 
-Integrate into CI pipelines (e.g., GitHub Actions) for automated regression testing
-
-🧠 FAQ
-Q: Can this handle captchas or 2‑factor?
-A: No—automatic solving of captchas or MFA is not supported. Those steps require manual handling or advanced services.
+## 🧠 FAQ
+Q: Can this bypass CAPTCHAs or 2FA?
+A: No—those require manual interaction or external bypass services.
 
 Q: What if the form layout changes?
-A: Field IDs or XPath may change—update script identifiers (By.ID, By.NAME) accordingly.
+A: Update the element locators (IDs/XPaths) in test_registration.py.
 
 👥 Contribute
-Feel free to open issues, PRs, or suggest enhancements—especially around more robust error handling, env‑based inputs, or CI setups.
+Contributions welcome—open issues or PRs for:
+
+Enhanced error handling
+
+Configurable test data from env/config
+
+CI pipeline integration (GitHub Actions, etc.)
 
 📄 License
-(No LICENSE file found—consider adding one if intended for open-source.)
+No LICENSE file included in repo. Consider adding one for open-source use.
+
+yaml
+Copy code
+
+---
+
 
